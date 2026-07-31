@@ -279,6 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 7.5 Curtain Parallax Effect (Robust Custom Engine)
     const curtainSections = [
         { section: ".hero", next: ".intro" },
+        { section: ".intro", next: ".pilares-pin" },
         { section: ".pilares-pin", next: ".servicios" },
         { section: ".servicios", next: ".fundadora" },
         { section: ".fundadora", next: ".reserva" },
