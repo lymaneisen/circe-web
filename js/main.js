@@ -130,26 +130,35 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 4. Parallax Images
-    gsap.utils.toArray('.parallax-img').forEach(container => {
+    // 4. Parallax Images (Robust Custom Engine to survive curtain effect)
+    const parallaxImages = gsap.utils.toArray('.parallax-img').map(container => {
         const img = container.querySelector('.parallax-target');
         if (img) {
-            const speed = container.dataset.speed || 0.5;
-            
-            gsap.fromTo(img, 
-                { yPercent: -10 * speed },
-                {
-                    yPercent: 10 * speed,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: container,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true
-                    }
-                }
-            );
+            return {
+                container,
+                img,
+                speed: parseFloat(container.dataset.speed || 0.5)
+            };
         }
+        return null;
+    }).filter(item => item !== null);
+
+    gsap.ticker.add(() => {
+        const winH = window.innerHeight;
+        parallaxImages.forEach(item => {
+            const rect = item.container.getBoundingClientRect();
+            // Check if container is in viewport
+            if (rect.top <= winH && rect.bottom >= 0) {
+                // Calculate progress from 0 (just entered bottom) to 1 (just left top)
+                const totalScroll = winH + rect.height;
+                const currentScroll = winH - rect.top;
+                const progress = gsap.utils.clamp(0, 1, currentScroll / totalScroll);
+                
+                // Map progress (0 to 1) to yPercent (-10*speed to 10*speed)
+                const yPercent = gsap.utils.mapRange(0, 1, -10 * item.speed, 10 * item.speed, progress);
+                gsap.set(item.img, { yPercent: yPercent });
+            }
+        });
     });
 
     // 5. Reveal Up Animations (Textos y Cards)
