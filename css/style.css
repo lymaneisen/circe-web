@@ -1,0 +1,1403 @@
+/* 
+  Sistema de Diseño - CIRCE
+  Basado en el Manual de Marca "La arquitectura del cuidado consciente" 
+*/
+
+:root {
+    /* Paleta Principal */
+    --color-malaquita: #00503D;
+    --color-rosado: #D2B1AC;
+    --color-onyx: #0D0D0D;
+    --color-pergamino: #F5F3EF;
+    --color-citrino: #B08D35;
+    
+    /* Paleta Secundaria */
+    --color-sec-1: #F4F1EA;
+    --color-sec-2: #D9C5B2;
+    --color-sec-3: #B08E7F;
+    --color-sec-4: #706558;
+
+    /* Tipografías */
+    --font-titulos: 'Raleway', sans-serif;
+    --font-subtitulos: 'Lora', serif;
+    --font-citas: 'Cormorant Garamond', serif;
+    --font-cuerpo: 'Questrial', sans-serif;
+    --font-circe: 'Red Rose', serif;
+    
+    /* Espaciados - Retícula arquitectónica y umbrales (Lujo Silencioso) */
+    --espacio-xs: 1rem;
+    --espacio-sm: 2rem;
+    --espacio-md: 4rem;
+    --espacio-lg: 8rem;
+    --espacio-xl: 12rem;
+}
+
+/* Fuentes personalizadas */
+@font-face {
+    font-family: 'Red Rose';
+    src: url('../assets/fonts/RedRose-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: initial; /* Lenis takes over */
+}
+
+body {
+    background-color: var(--color-pergamino);
+    color: var(--color-onyx);
+    font-family: var(--font-cuerpo);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+/* Evitar scroll antes de que termine el loader */
+body.is-loading {
+    overflow: hidden;
+}
+
+/* Tipografía Básica */
+.font-circe {
+    font-family: var(--font-circe);
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-titulos);
+    font-weight: 300;
+    color: var(--color-onyx);
+}
+
+p {
+    margin-bottom: var(--espacio-sm);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+a:hover {
+    opacity: 0.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5vw;
+}
+
+/* Utilidades */
+.relative { position: relative; }
+.z-10 { z-index: 10; }
+
+/* Osmo Loader */
+.osmo-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-sec-1);
+    background-image: url('../assets/images/Gemini_Generated_Image_szzurdszzurdszzu.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.cards-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+}
+
+.card-img-container {
+    position: absolute;
+    width: 45vw; /* Much bigger */
+    max-width: 500px;
+    aspect-ratio: 3 / 4;
+    border-radius: 16px;
+    overflow: hidden;
+    /* Borde dorado secundario de Circe */
+    border: 4px solid var(--color-sec-2);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    background-color: transparent; /* Avoid any white background showing through */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-logo-container {
+    background-color: var(--color-malaquita);
+    border: 4px solid var(--color-citrino);
+    box-shadow: 0 35px 70px rgba(0,0,0,0.4);
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This guarantees no white space inside the card */
+    object-position: center;
+    /* Las imágenes generadas por IA suelen venir con un marco blanco dentro del archivo. */
+    /* Usamos un scale(1.15) para hacer "zoom" y recortar ese marco blanco ocultándolo fuera del borde */
+    transform: scale(1.15); 
+}
+
+.card-logo {
+    width: 60%;
+    height: auto;
+    object-fit: contain;
+    transform: scale(1); /* El logo no lo recortamos */
+}
+
+/* Mobile Adjustments for Loader */
+@media (max-width: 768px) {
+    .card-img-container {
+        width: 75vw;
+        max-width: none;
+    }
+}
+
+
+
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 0;
+    z-index: 1000;
+    transition: all 0.4s ease;
+}
+
+.navbar.scrolled {
+    background-color: rgba(245, 243, 239, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+}
+
+.navbar.scrolled .nav-brand,
+.navbar.scrolled .nav-link {
+    color: var(--color-onyx);
+    border-color: var(--color-onyx);
+}
+
+.nav-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 75px; /* Aumentado para mejor visualización */
+    width: 220px; /* Asegura espacio para la transición */
+}
+
+.nav-brand img {
+    height: 100%;
+    width: auto;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: left center; /* Asegura que al escalar crezcan hacia la derecha */
+}
+
+/* Isotipo (visible al inicio) */
+.logo-isotipo {
+    opacity: 1;
+    transform: translateY(0) scale(1.4); /* 40% más grande */
+}
+
+/* Texto (oculto al inicio) */
+.logo-texto {
+    opacity: 0;
+    transform: translateY(10px) scale(1.4);
+}
+
+/* Al scrollear */
+.navbar.scrolled .logo-isotipo {
+    opacity: 0;
+    transform: translateY(-10px) scale(1.4);
+}
+
+.navbar.scrolled .logo-texto {
+    opacity: 1;
+    transform: translateY(0) scale(1.4);
+}
+
+.nav-links {
+    display: flex;
+    gap: 3rem;
+}
+
+.nav-link {
+    font-family: var(--font-cuerpo);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-pergamino);
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0%;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+.btn-primary {
+    border: 1px solid var(--color-pergamino);
+    color: var(--color-pergamino);
+    padding: 0.8rem 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+/* Ocultar botón en el navbar hasta que se haga scroll (navbar blanco) */
+.navbar .btn-primary {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.navbar.scrolled .btn-primary {
+    opacity: 1;
+    visibility: visible;
+    background-color: var(--color-citrino);
+    border-color: var(--color-citrino);
+    color: var(--color-pergamino) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-citrino);
+    border-color: var(--color-citrino);
+    color: var(--color-pergamino) !important;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    width: 30px;
+    height: 1px;
+    background-color: var(--color-pergamino);
+    transition: all 0.3s ease;
+}
+/* Hero Section */
+.hero {
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: -10%;
+    left: 0;
+    width: 100%;
+    height: 120%; /* Para el efecto parallax */
+    z-index: 1;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,80,61,0.4) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: var(--color-pergamino);
+    width: 100%;
+    padding: 0 5vw;
+}
+
+.hero-title {
+    font-family: var(--font-circe);
+    font-size: clamp(4rem, 12vw, 10rem);
+    letter-spacing: 0.1em;
+    margin-bottom: 0;
+    color: var(--color-pergamino);
+    line-height: 1;
+}
+
+.hero-tagline-wrapper {
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.hero-tagline {
+    font-family: var(--font-titulos);
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-citrino);
+    margin-bottom: 0;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--color-pergamino);
+    opacity: 0; /* Animado luego */
+}
+
+.scroll-indicator p {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 10px;
+}
+
+.scroll-indicator .line {
+    width: 1px;
+    height: 60px;
+    background-color: rgba(255,255,255,0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-indicator .line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-citrino);
+    animation: scrollLine 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+@keyframes scrollLine {
+    0% { transform: translateY(-100%); }
+    50% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+}
+
+/* Filosofía / Intro */
+.intro {
+    position: relative;
+    z-index: 5;
+    padding: var(--espacio-xl) 0;
+    background-color: var(--color-pergamino);
+}
+
+.intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8vw;
+    align-items: center;
+}
+
+.section-label {
+    display: block;
+    font-family: var(--font-titulos);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-citrino);
+    margin-bottom: 2rem;
+}
+
+.intro-text .section-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.2;
+    margin-bottom: 3rem;
+}
+
+.intro-desc {
+    font-size: 1.1rem;
+    color: var(--color-sec-4);
+    max-width: 500px;
+}
+
+.intro-desc p:first-child {
+    font-family: var(--font-citas);
+    font-size: 1.8rem;
+    font-style: italic;
+    color: var(--color-malaquita);
+    margin-bottom: 2rem;
+}
+
+.image-mask {
+    overflow: hidden;
+    height: 80vh;
+    width: 100%;
+}
+
+.image-mask img {
+    width: 100%;
+    height: 120%;
+    object-fit: cover;
+}
+
+/* Los 4 Pilares (Slider Parallax Horizontal) */
+.pilares-pin {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    z-index: 8;
+    background-color: var(--color-sec-1);
+}
+
+.pilares-editorial-layout {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.pilares-fixed-sidebar {
+    flex: 0 0 35%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 4vw;
+    background-color: var(--color-sec-1);
+    z-index: 10;
+    border-right: 1px solid rgba(0,0,0,0.05);
+}
+
+.pilares-fixed-sidebar .section-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin-bottom: 1.5rem;
+}
+
+.pilares-fixed-sidebar .section-subtitle {
+    font-family: var(--font-citas);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--color-sec-4);
+}
+
+.pilares-scroll-area {
+    flex: 0 0 65%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--color-sec-1);
+}
+
+.pilares-track {
+    display: flex;
+    flex-wrap: nowrap;
+    height: 100%;
+    width: fit-content; /* Se adapta dinámicamente al número de slides */
+    will-change: transform;
+}
+
+.pilar-slide {
+    width: 65vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4vw;
+    position: relative;
+    gap: 2rem;
+}
+
+.pilar-content {
+    flex: none;
+    width: 100%;
+    max-width: 600px;
+    z-index: 2;
+    text-align: center;
+}
+
+.pilar-num {
+    font-family: var(--font-titulos);
+    font-size: 0.9rem;
+    color: var(--color-citrino);
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.pilar-content h3 {
+    font-family: var(--font-subtitulos);
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    margin-bottom: 1.5rem;
+    color: var(--color-malaquita);
+}
+
+.pilar-content p {
+    font-size: 1.1rem;
+    color: var(--color-sec-4);
+}
+
+.pilar-img-parallax {
+    flex: none;
+    width: 100%;
+    max-width: 700px;
+    height: 50vh;
+    overflow: hidden;
+    position: relative;
+    border-radius: 4px; /* Un pequeño radio para darle elegancia editorial */
+}
+
+.pilar-img-parallax img {
+    width: 130%; /* Extra width para el efecto parallax */
+    height: 100%;
+    object-fit: cover;
+    will-change: transform;
+}
+
+/* Servicios (Acordeón) */
+.servicios {
+    position: relative;
+    z-index: 10;
+    padding: calc(var(--espacio-xl) * 1.3) 0 var(--espacio-xl); /* Ajuste de espacio entre pilares y servicios */
+    color: var(--color-pergamino);
+    overflow: hidden;
+}
+
+.servicios .section-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.servicios .section-label {
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 1.5rem;
+}
+
+.servicios .section-title {
+    font-size: clamp(3rem, 6vw, 5.5rem); /* Título mucho más grande e imponente */
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.servicios .section-subtitle {
+    font-size: 1.2rem;
+    max-width: 700px;
+    text-align: center;
+    color: rgba(245, 243, 239, 0.8); /* Pergamino slightly faded */
+}
+
+.servicios-bg {
+    position: absolute;
+    top: -10%;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    z-index: 1;
+}
+
+.servicios-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; /* Asegura que cubra bien */
+}
+
+.servicios-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 80, 61, 0.85); /* Verde malaquita semi transparente */
+}
+
+.section-header.light .section-title,
+.section-header.light .section-subtitle {
+    color: var(--color-pergamino);
+}
+
+.accordion-wrapper {
+    max-width: 1000px;
+    margin: 4rem auto 0;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.accordion-item {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.accordion-header {
+    padding: 2.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.accordion-header:hover {
+    opacity: 0.7;
+}
+
+.accordion-header h3 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    color: var(--color-pergamino);
+    margin: 0;
+}
+
+.accordion-icon {
+    width: 24px;
+    height: 24px;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.accordion-item.active .accordion-icon {
+    transform: rotate(135deg); /* Plus to X spin */
+}
+
+.accordion-icon::before,
+.accordion-icon::after {
+    content: '';
+    position: absolute;
+    background-color: var(--color-citrino);
+}
+
+.accordion-icon::before {
+    top: 11px;
+    left: 0;
+    width: 24px;
+    height: 2px;
+}
+
+.accordion-icon::after {
+    top: 0;
+    left: 11px;
+    width: 2px;
+    height: 24px;
+}
+
+.accordion-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.accordion-item.active .accordion-content {
+    grid-template-rows: 1fr;
+}
+
+.service-list {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.service-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    
+    /* Animation osmo style */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.accordion-item.active .service-row {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered entrance */
+.accordion-item.active .service-row:nth-child(1) { transition-delay: 0.10s; }
+.accordion-item.active .service-row:nth-child(2) { transition-delay: 0.15s; }
+.accordion-item.active .service-row:nth-child(3) { transition-delay: 0.20s; }
+.accordion-item.active .service-row:nth-child(4) { transition-delay: 0.25s; }
+.accordion-item.active .service-row:nth-child(5) { transition-delay: 0.30s; }
+
+.service-row:last-child {
+    border-bottom: none;
+    padding-bottom: 3rem; /* Movido aquí para evitar bug en CSS Grid height: 0 */
+}
+
+.service-name {
+    font-family: var(--font-citas);
+    font-size: 1.3rem;
+}
+
+.service-name small {
+    display: block;
+    font-family: var(--font-cuerpo);
+    font-size: 0.85rem;
+    color: var(--color-rosado);
+    margin-top: 0.5rem;
+}
+
+.service-prices {
+    text-align: right;
+    font-family: var(--font-cuerpo);
+    font-size: 0.95rem;
+    color: var(--color-sec-2);
+}
+
+.service-prices span {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+/* Fundadora */
+.fundadora {
+    position: relative;
+    z-index: 20;
+    padding: var(--espacio-xl) 0;
+    background-color: var(--color-pergamino);
+}
+.fundadora-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8vw;
+    align-items: center;
+}
+.fundadora-text .section-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.2;
+    margin-bottom: 2rem;
+}
+.fundadora-desc {
+    font-size: 1.1rem;
+    color: var(--color-sec-4);
+    max-width: 500px;
+}
+.fundadora-img {
+    height: 70vh;
+}
+
+/* Reserva */
+.reserva {
+    position: relative;
+    z-index: 30;
+    padding: var(--espacio-xl) 0;
+    background-color: var(--color-sec-1);
+}
+.reserva-wrapper {
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+    gap: 6vw;
+    align-items: start;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.reserva-info .section-title {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    margin-bottom: 1.5rem;
+    color: var(--color-malaquita);
+}
+.reserva-info p {
+    color: var(--color-sec-4);
+}
+.reserva-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-sec-2);
+    padding: 1rem 0;
+    font-family: var(--font-cuerpo);
+    font-size: 1rem;
+    color: var(--color-onyx);
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+.form-group input::placeholder, 
+.form-group textarea::placeholder {
+    color: var(--color-sec-3);
+}
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+    border-color: var(--color-malaquita);
+}
+.btn-submit {
+    align-self: flex-start;
+    background-color: var(--color-malaquita);
+    color: var(--color-pergamino) !important;
+    border-color: var(--color-malaquita);
+    margin-top: 1rem;
+    cursor: pointer;
+}
+.btn-submit:hover {
+    background-color: var(--color-citrino);
+    border-color: var(--color-citrino);
+}
+
+/* Footer (Estilo Patek Philippe) */
+.footer {
+    position: relative;
+    z-index: 40;
+    background-color: var(--color-onyx);
+    color: var(--color-pergamino);
+    padding: var(--espacio-xl) 0 2rem;
+    font-family: var(--font-cuerpo);
+    overflow: hidden;
+}
+
+.footer-patek-bottom-brand {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: var(--espacio-sm);
+    width: 100%;
+}
+
+.footer-logo-massive {
+    font-size: clamp(4rem, 18vw, 15rem);
+    letter-spacing: 0.05em;
+    color: var(--color-pergamino);
+    margin: 0;
+    line-height: 0.8;
+    opacity: 0.9;
+}
+
+.patek-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+    border-top: 1px solid rgba(245, 243, 239, 0.15);
+    padding-top: 4rem;
+}
+
+.footer-col h4 {
+    font-family: var(--font-titulos);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-citrino);
+    margin-bottom: 2rem;
+}
+
+.footer-col a {
+    display: block;
+    color: var(--color-sec-2);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    transition: color 0.4s ease;
+}
+
+.footer-col a:hover {
+    color: var(--color-pergamino);
+    opacity: 1;
+}
+
+.map-link {
+    margin-top: 1.5rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    color: var(--color-pergamino);
+}
+
+.map-link:hover {
+    color: var(--color-citrino);
+}
+
+.footer-schedule {
+    margin-top: 1.5rem;
+    color: var(--color-sec-4);
+    font-size: 0.9rem;
+    line-height: 1.8;
+}
+
+.patek-bottom {
+    text-align: center;
+    border-top: 1px solid rgba(245, 243, 239, 0.1);
+    padding-top: 2rem;
+    font-size: 0.8rem;
+    color: var(--color-sec-4);
+    letter-spacing: 0.05em;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    :root {
+        --espacio-xl: 6rem;
+        --espacio-lg: 4rem;
+        --espacio-md: 3rem;
+    }
+
+    .navbar {
+        padding: 1rem 0;
+    }
+    .nav-brand {
+        height: 50px;
+        width: auto;
+        flex: 1; /* Ocupa mitad del espacio restante para forzar simetría perfecta */
+    }
+    
+    .menu-toggle {
+        display: flex;
+        flex: 1; /* Ocupa la otra mitad del espacio restante */
+        align-items: flex-end; /* Alinea las barras a la derecha visualmente */
+        padding-right: 15px; /* Empujar el ícono 15px hacia adentro para simetría visual */
+    }
+    
+    /* Ajustes específicos para El Refugio (Intro) en móvil */
+    .intro {
+        padding: 2rem 0 1rem 0 !important; /* Reducir drásticamente el espacio sobrante */
+    }
+
+    /* Evitar que el texto se esconda detrás del borde redondeado debido a la animación reveal-up */
+    .intro-grid .reveal-up {
+        transform: none !important;
+        opacity: 1 !important;
+    }
+
+    /* Escalar la imagen para que el efecto parallax no muestre fondos vacíos */
+    .intro-image-container .parallax-target {
+        height: 120% !important;
+        top: -10% !important;
+        position: absolute !important;
+    }
+
+    .fundadora-grid, .reserva-wrapper {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    /* Convertimos la sección 'El Refugio' (intro-grid) en una tarjeta tipo overlay para móvil */
+    .intro-grid {
+        display: block;
+        position: relative;
+        width: 100%; /* Aprovecha el ancho del container */
+        height: 75vh;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+
+    .intro-image-container {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 1;
+    }
+
+    .intro-image-container .image-mask {
+        height: 100% !important; /* Para que ocupe todo el alto del contenedor */
+    }
+
+    .intro-image-container::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(to bottom, transparent 20%, rgba(32,35,31,0.95) 90%);
+        z-index: 2;
+    }
+
+    .intro-text {
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 100%;
+        padding: 1rem 1rem 1.5rem; /* Más baja (menos padding inferior) */
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center; /* Centrada */
+        text-align: center; /* Centrada */
+    }
+
+    .intro-text .section-title {
+        color: var(--color-pergamino) !important;
+        font-size: clamp(1.8rem, 6vw, 2.2rem);
+        margin-bottom: 0.5rem;
+    }
+
+    .intro-desc p {
+        color: rgba(245, 243, 239, 0.9) !important;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 0;
+    }
+    
+    .pilares-editorial-layout {
+        flex-direction: column;
+        height: auto; /* Para que dependa del alto de la card (75vh) y el header */
+        overflow: hidden;
+    }
+
+    .pilares-fixed-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 0.5rem 5vw 0.5rem; /* Quitar espacio exagerado arriba y abajo */
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border-right: none;
+        border-bottom: none; /* Quitamos linea divisoria para dar más continuidad */
+    }
+    
+    .pilares-fixed-sidebar .section-label {
+        margin-bottom: 0;
+        font-size: 0.75rem;
+    }
+    
+    .pilares-fixed-sidebar .section-title {
+        font-size: clamp(2rem, 6vw, 3rem);
+        margin-bottom: 0;
+    }
+    
+    .pilares-fixed-sidebar .section-subtitle {
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Quitamos el alto fijo y overflow de la sección completa en móvil para que no recorte las tarjetas */
+    .pilares-pin {
+        height: auto;
+        overflow: visible;
+        margin-bottom: 3rem; /* Espacio extra al final de la sección */
+    }
+
+    .pilares-scroll-area {
+        flex: none; 
+        width: 100vw;
+        height: 75vh; /* Swiper NECESITA un alto explícito o colapsa a 0 */
+        overflow: hidden; /* Swiper recorta horizontalmente */
+        padding-bottom: 0; /* Sin padding interno para no recortar la tarjeta */
+    }
+
+    .pilares-track {
+        width: 100%; 
+        height: 100%; /* Ajuste a la tarjeta */
+    }
+
+    .pilar-slide {
+        width: 90vw; /* Mismo ancho de container (100vw - 2x5vw) */
+        height: 75vh; /* Mismo tamaño exacto que la tarjeta El Refugio */
+        margin-top: 0; 
+        padding: 0;
+        position: relative;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        overflow: hidden; /* Cortar imagen en los bordes curvos */
+    }
+
+    .pilar-img-parallax {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        margin-bottom: 0;
+        z-index: 1;
+    }
+
+    /* Gradiente oscuro para que el texto sea perfectamente legible */
+    .pilar-img-parallax::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(to bottom, transparent 30%, rgba(32,35,31,0.9) 95%);
+        z-index: 2;
+    }
+
+    .pilar-content {
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 100%;
+        height: auto;
+        padding: 1rem 1rem 1.5rem; /* Mismo padding bajo que la tarjeta El Refugio */
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center; /* Centrada */
+        text-align: center; /* Centrada */
+    }
+
+    /* Ajustar colores a claro (modo oscuro) para leer sobre la foto */
+    .pilar-content h3 {
+        color: var(--color-pergamino);
+        font-size: clamp(2rem, 6vw, 2.5rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .pilar-content p {
+        color: rgba(245, 243, 239, 0.9);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 0;
+    }
+    
+    .pilar-num {
+        color: var(--color-citrino);
+        margin-bottom: 0.5rem;
+    }
+
+    .image-mask, .fundadora-img {
+        height: 60vh;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    /* Mostrar y centrar botón Reservar en móvil de forma simétrica */
+    .navbar .btn-primary {
+        display: block !important;
+        position: relative; /* Sobrescribir absolute */
+        left: auto;
+        transform: translateX(10px); /* 15px - 5px hacia el logo = 10px */
+        padding: 0.5rem 1rem; /* Ajustar padding para evitar desborde */
+        font-size: 0.7rem;
+    }
+    
+    .navbar.scrolled .menu-toggle span {
+        background-color: var(--color-onyx);
+    }
+
+    .navbar.menu-open .menu-toggle span {
+        background-color: var(--color-pergamino) !important;
+    }
+
+    .accordion-header {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        padding: 1.5rem 0;
+    }
+
+    /* Convertir sección Catálogo (Servicios) a Tarjeta tipo El Refugio/Pilares */
+    .servicios {
+        width: 100vw; /* Ancho completo para tapar la sección anterior al hacer scroll (efecto cortina) */
+        margin: 0; 
+        border-radius: 0;
+        box-shadow: none;
+        padding: 3rem 0; /* 3rem de espacio vacío antes y después de la tarjeta */
+        background-color: var(--color-pergamino); /* Color del fondo para tapar pilares */
+        overflow: hidden; 
+    }
+
+    /* La tarjeta visual será el fondo parallax */
+    .servicios-bg {
+        width: 90vw;
+        left: 5vw;
+        top: 3rem; /* Lo desplazamos hacia abajo para saltar el padding superior de .servicios */
+        height: calc(100% - 6rem); /* Su altura exacta es 100% menos los 3rem de arriba y 3rem de abajo */
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+
+    .servicios .container {
+        padding: 3rem 5vw; /* Padding interno de la tarjeta para que el contenido respire */
+        width: 100%;
+        position: relative;
+        z-index: 10;
+    }
+
+    /* Fix para evitar que el fondo cambie de tamaño al abrir el acordeón */
+    .servicios-bg .parallax-target {
+        height: 300vh !important; /* Aumentado a 300vh para garantizar cobertura total sin importar cuánto se despliegue */
+        top: -50vh !important; /* Centrar el exceso de altura */
+        position: absolute !important;
+    }
+
+    /* Centrar textos y reordenar servicios dentro de la tarjeta móvil */
+    .accordion-header {
+        justify-content: center;
+        position: relative;
+    }
+    
+    .accordion-header h3 {
+        text-align: center;
+        width: 100%;
+        padding: 0; /* Sin padding porque ocultaremos el ícono */
+    }
+    
+    .accordion-icon {
+        display: none !important; /* Ocultar la X giratoria en móvil */
+    }
+    
+    .service-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .service-prices {
+        text-align: center;
+    }
+
+    /* Convertir sección Fundadora a Tarjeta tipo El Refugio/Pilares */
+    .fundadora {
+        padding: 2rem 0 3rem 0 !important;
+    }
+
+    .fundadora-grid {
+        display: block !important;
+        position: relative;
+        width: 100%; /* Aprovecha el padding del container (5vw a los lados) -> 90vw de tarjeta */
+        height: 75vh;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        margin: 0;
+        gap: 0;
+    }
+
+    .fundadora-img {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 1;
+    }
+
+    .fundadora-img .image-mask {
+        height: 100%;
+        width: 100%;
+        border-radius: 0; /* La tarjeta .fundadora-grid ya recorta las esquinas */
+    }
+
+    /* Escalar la imagen de la fundadora para el parallax (evitar cortes arriba) */
+    .fundadora-img .parallax-target {
+        height: 150% !important;
+        top: -25% !important;
+        position: absolute !important;
+    }
+
+    .fundadora-text {
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 100%;
+        padding: 3rem 1.5rem;
+        z-index: 2;
+        background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); /* Gradiente oscuro para legibilidad */
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Forzar textos claros dentro de la tarjeta con gradiente */
+    .fundadora-text .section-title,
+    .fundadora-text p {
+        color: var(--color-pergamino) !important;
+        text-align: center !important;
+    }
+
+    /* Color dorado para "La Fundadora" */
+    .fundadora-text .section-label {
+        color: var(--color-citrino) !important;
+        text-align: center !important;
+        margin-bottom: 0.2rem !important; /* Acercar la etiqueta al título principal */
+    }
+
+    .fundadora-text .section-title {
+        margin-bottom: 1rem;
+    }
+
+    .fundadora-desc {
+        max-width: 100%; /* Para que el texto centrado fluya libremente */
+        margin: 0 auto;
+    }
+}
+/* Menú Móvil */
+.nav-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-onyx);
+    z-index: -1; /* Detrás del header que tiene z-index 100 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.nav-mobile-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-mobile-link {
+    font-family: var(--font-titulos);
+    font-size: clamp(2rem, 8vw, 3rem);
+    color: var(--color-pergamino);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transform: translateY(20px);
+}

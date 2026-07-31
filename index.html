@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIRCE | La arquitectura del cuidado consciente</title>
+    
+    <!-- Tipografías de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Questrial&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Lenis (Smooth Scroll) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.19/dist/lenis.css">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <!-- Estilos CSS (Carga al final para sobrescribir plugins) -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="is-loading">
+    
+    <!-- Custom Cursor (opcional para dar toque premium) -->
+    <div class="cursor"></div>
+
+    <!-- Nuevo Loader (Dropping Cards Animación) -->
+    <div class="osmo-loader">
+        <div class="cards-wrapper">
+            <div class="card-img-container"><img src="./assets/images/opt/Gemini_Generated_Image_ (28).jpg" class="card-img" alt="Masaje 1"></div>
+            <div class="card-img-container"><img src="./assets/images/opt/Gemini_Generated_Image_1f4xm61f4xm61f4x.jpg" class="card-img" alt="Masaje 2"></div>
+            <div class="card-img-container"><img src="./assets/images/opt/Gemini_Generated_Image_2ptu2p2ptu2p2ptu.jpg" class="card-img" alt="Masaje 3"></div>
+            <div class="card-img-container"><img src="./assets/images/opt/Gemini_Generated_Image_571c5y571c5y571c.jpg" class="card-img" alt="Masaje 4"></div>
+            <div class="card-img-container"><img src="./assets/images/opt/Gemini_Generated_Image_9e2do99e2do99e2d.jpg" class="card-img" alt="Masaje 5"></div>
+            <div class="card-img-container"><img src="./assets/images/opt/Gemini_Generated_Image_9gean39gean39gea.jpg" class="card-img" alt="Masaje 6"></div>
+            <div class="card-img-container"><img src="./assets/images/opt/Gemini_Generated_Image_h4d1eh4d1eh4d1eh.jpg" class="card-img" alt="Masaje 7"></div>
+            <div class="card-img-container"><img src="./assets/images/opt/Gemini_Generated_Image_k5rm6ck5rm6ck5rm.jpg" class="card-img" alt="Masaje 8"></div>
+            <div class="card-img-container card-logo-container"><img src="./assets/images/logo-isotipo.png" class="card-img card-logo" alt="Circe Logo"></div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#inicio" class="nav-brand">
+                <img src="./assets/images/logo-texto.png" alt="CIRCE" class="logo-texto">
+                <img src="./assets/images/logo-isotipo.png" alt="CIRCE Isotipo" class="logo-isotipo">
+            </a>
+            <nav class="nav-links">
+                <a href="#filosofia" class="nav-link">El Refugio</a>
+                <a href="#pilares" class="nav-link">Los 4 Pilares</a>
+                <a href="#servicios" class="nav-link">Rituales</a>
+                <a href="#contacto" class="nav-link">Contacto</a>
+            </nav>
+            <a href="#" class="btn-primary">Reservar</a>
+            
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+          <div class="nav-mobile">
+          <nav class="nav-mobile-links">
+              <a href="#filosofia" class="nav-mobile-link">El Refugio</a>
+              <a href="#pilares" class="nav-mobile-link">Los 4 Pilares</a>
+              <a href="#servicios" class="nav-mobile-link">Rituales</a>
+              <a href="#contacto" class="nav-mobile-link">Contacto</a>
+          </nav>
+      </div>
+  </header>
+
+    <!-- Contenido Principal -->
+    <main class="smooth-wrapper">
+        
+        <!-- Hero Section (El Umbral) -->
+        <section class="hero" id="inicio">
+            <div class="hero-bg" data-speed="0.5">
+                <!-- Usando una de las imágenes generadas como fondo -->
+                <div class="hero-image" style="background-image: url('assets/images/Gemini_Generated_Image_vyey0xvyey0xvyey.png');"></div>
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="hero-logo-wrapper">
+                    <img src="./assets/images/Gemini_Generated_Image_vyey0xvyey0xvyey.png" style="display:none;" alt="preload">
+                    <h1 class="hero-title reveal-text">CIRCE</h1>
+                </div>
+                <div class="hero-tagline-wrapper">
+                    <p class="hero-tagline reveal-text">la arquitectura del cuidado consciente</p>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator">
+                <p>Cruzar el umbral</p>
+                <div class="line"></div>
+            </div>
+        </section>
+
+        <!-- Sección: Filosofía / Intro -->
+        <section class="intro" id="filosofia">
+            <div class="container">
+                <div class="intro-grid">
+                    <div class="intro-text">
+                        <h2 class="section-title reveal-up">Un espacio donde permitirse habitar la vulnerabilidad sin temor.</h2>
+                        <div class="intro-desc reveal-up">
+                            <p>Donde el tacto se convierte en lenguaje y el silencio en sostén.</p>
+                            <p><span class="font-circe">CIRCE</span> nace de un impulso íntimo y profundo por recuperar la sensibilidad, la pausa y el tacto en un mundo que a menudo los olvida. Es la encarnación de una búsqueda personal por dignificar la vulnerabilidad humana, transformándola en una fuente inmensa de fortaleza, templanza y conexión.</p>
+                        </div>
+                    </div>
+                    <div class="intro-image-container parallax-img" data-speed="0.8">
+                        <div class="image-mask">
+                            <img src="assets/images/Gemini_Generated_Image_9e2do99e2do99e2d.png" alt="Atmósfera CIRCE" class="parallax-target">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección: Los 4 Pilares (Slider Parallax) -->
+        <section class="pilares-pin" id="pilares">
+            
+            <div class="pilares-editorial-layout">
+                <div class="pilares-fixed-sidebar">
+                    <div class="section-header reveal-up">
+                        <span class="section-label">Filosofía</span>
+                        <h2 class="section-title">Los 4 Pilares</h2>
+                        <p class="section-subtitle">Una arquitectura invisible que guía la experiencia introspectiva.</p>
+                    </div>
+                </div>
+
+                <div class="pilares-scroll-area swiper pilares-swiper">
+                <div class="pilares-track swiper-wrapper">
+                    <!-- Pilar 1 -->
+            <div class="pilar-slide swiper-slide">
+                    <div class="pilar-content">
+                        <span class="pilar-num">01</span>
+                        <h3>El Refugio</h3>
+                        <p>No es simplemente un espacio físico; es un entorno diseñado con intención terapéutica para permitir que el cuerpo deponga sus tensiones y que la mente encuentre un momento de pausa.</p>
+                    </div>
+                    <div class="pilar-img-parallax">
+                        <img src="assets/images/Gemini_Generated_Image_ (19).png" alt="El Refugio" class="parallax-target-horizontal">
+                    </div>
+                </div>
+
+                <!-- Pilar 2 -->
+            <div class="pilar-slide swiper-slide">
+                    <div class="pilar-content">
+                        <span class="pilar-num">02</span>
+                        <h3>El Ritual</h3>
+                        <p>Cada encuentro fluye como una coreografía de gestos, ritmo y silencios, guiando al cuerpo hasta aquietar gradualmente el sistema nervioso. Al fundir el rigor técnico con sensibilidad, el contacto trasciende.</p>
+                    </div>
+                    <div class="pilar-img-parallax">
+                        <img src="assets/images/Gemini_Generated_Image_ (27).png" alt="El Ritual" class="parallax-target-horizontal">
+                    </div>
+                </div>
+
+                <!-- Pilar 3 -->
+            <div class="pilar-slide swiper-slide">
+                    <div class="pilar-content">
+                        <span class="pilar-num">03</span>
+                        <h3>La Maestría</h3>
+                        <p>Cada intervención terapéutica se sustenta en una comprensión sólida de la anatomía, la fisiología y las dinámicas de tensión corporal. La Maestría garantiza un cuidado sensible, profesional y seguro.</p>
+                    </div>
+                    <div class="pilar-img-parallax">
+                        <img src="assets/images/Gemini_Generated_Image_571c5y571c5y571c.png" alt="La Maestría" class="parallax-target-horizontal">
+                    </div>
+                </div>
+
+                <!-- Pilar 4 -->
+            <div class="pilar-slide swiper-slide">
+                    <div class="pilar-content">
+                        <span class="pilar-num">04</span>
+                        <h3>El Vínculo</h3>
+                        <p>Cada encuentro nace de la confianza, el respeto y la presencia plena, ofreciendo un espacio seguro donde el cuerpo puede entregarse a su propia restauración.</p>
+                    </div>
+                    <div class="pilar-img-parallax">
+                        <img src="assets/images/Gemini_Generated_Image_pq31kupq31kupq31.png" alt="El Vínculo" class="parallax-target-horizontal">
+                    </div>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección: Catálogo de Servicios (Acordeón Premium) -->
+        <section class="servicios" id="servicios">
+            <div class="servicios-bg parallax-img" data-speed="0.5">
+                <img src="assets/images/Gemini_Generated_Image_1f4xm61f4xm61f4x.png" alt="Fondo Servicios" class="parallax-target">
+                <div class="servicios-overlay"></div>
+            </div>
+            
+            <div class="container relative z-10">
+                <div class="section-header light reveal-up">
+                    <span class="section-label">Catálogo</span>
+                    <h2 class="section-title">Rituales de Restauración</h2>
+                </div>
+                
+                <div class="accordion-wrapper">
+                    <!-- Categoría 1 -->
+                    <div class="accordion-item reveal-up">
+                        <div class="accordion-header">
+                            <h3>Masajes en Camilla</h3>
+                            <div class="accordion-icon"></div>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="service-list">
+                                <div class="service-row">
+                                    <div class="service-name">Masaje Relajante</div>
+                                    <div class="service-prices">
+                                        <span>60 min — $45.000</span>
+                                        <span>80 min — $55.000</span>
+                                    </div>
+                                </div>
+                                <div class="service-row">
+                                    <div class="service-name">Masaje Descontracturante</div>
+                                    <div class="service-prices">
+                                        <span>60 min — $50.000</span>
+                                        <span>80 min — $60.000</span>
+                                    </div>
+                                </div>
+                                <div class="service-row">
+                                    <div class="service-name">Masaje Mixto</div>
+                                    <div class="service-prices">
+                                        <span>60 min — $50.000</span>
+                                        <span>80 min — $60.000</span>
+                                    </div>
+                                </div>
+                                <div class="service-row">
+                                    <div class="service-name">Drenaje Linfático</div>
+                                    <div class="service-prices">
+                                        <span>40 min — $55.000</span>
+                                        <span>60 min — $60.000</span>
+                                        <span>90 min — $70.000</span>
+                                    </div>
+                                </div>
+                                <div class="service-row">
+                                    <div class="service-name">Masaje Moldeador Anticelulítico</div>
+                                    <div class="service-prices">
+                                        <span>Sesión Indiv. — $55.000</span>
+                                        <span>6 sesiones — $275.000</span>
+                                        <span>8 sesiones — $330.000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Categoría 2 -->
+                    <div class="accordion-item reveal-up">
+                        <div class="accordion-header">
+                            <h3>Masajes en Silla Ergonómica</h3>
+                            <div class="accordion-icon"></div>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="service-list">
+                                <div class="service-row">
+                                    <div class="service-name">Masaje Relajante</div>
+                                    <div class="service-prices">
+                                        <span>20 min — $15.000</span>
+                                        <span>30 min — $20.000</span>
+                                        <span>40 min — $25.000</span>
+                                    </div>
+                                </div>
+                                <div class="service-row">
+                                    <div class="service-name">Masaje Descontracturante</div>
+                                    <div class="service-prices">
+                                        <span>20 min — $25.000</span>
+                                        <span>30 min — $30.000</span>
+                                        <span>40 min — $35.000</span>
+                                    </div>
+                                </div>
+                                <div class="service-row">
+                                    <div class="service-name">Masaje Cráneo-Facial</div>
+                                    <div class="service-prices">
+                                        <span>20 min — $30.000</span>
+                                        <span>30 min — $35.000</span>
+                                        <span>40 min — $40.000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Categoría 3 -->
+                    <div class="accordion-item reveal-up">
+                        <div class="accordion-header">
+                            <h3>Planes</h3>
+                            <div class="accordion-icon"></div>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="service-list">
+                                <div class="service-row">
+                                    <div class="service-name">Plan Básico Relajante<br><small>4 sesiones al mes (60 min)</small></div>
+                                    <div class="service-prices"><span>$144.000</span></div>
+                                </div>
+                                <div class="service-row">
+                                    <div class="service-name">Plan Básico Descontracturante<br><small>4 sesiones al mes (60 min)</small></div>
+                                    <div class="service-prices"><span>$160.000</span></div>
+                                </div>
+                                <div class="service-row">
+                                    <div class="service-name">Plan Básico Mixto<br><small>4 sesiones al mes (60 min)</small></div>
+                                    <div class="service-prices"><span>$165.000</span></div>
+                                </div>
+                                <div class="service-row">
+                                    <div class="service-name">Plan Intensivo Relajación<br><small>8 sesiones al mes (60 min)</small></div>
+                                    <div class="service-prices"><span>$216.000</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección: Fundadora -->
+        <section class="fundadora" id="fundadora">
+            <div class="container">
+                <div class="fundadora-grid">
+                    <div class="fundadora-img parallax-img" data-speed="0.8">
+                        <div class="image-mask">
+                            <img src="assets/images/Gemini_Generated_Image_h4d1eh4d1eh4d1eh.png" alt="Marta Sanhueza, Fundadora de CIRCE" class="parallax-target">
+                        </div>
+                    </div>
+                    <div class="fundadora-text reveal-up">
+                        <span class="section-label">La Fundadora</span>
+                        <h2 class="section-title">Marta Sanhueza</h2>
+                        <div class="fundadora-desc">
+                            <p>Marta Sanhueza, creadora de <span class="font-circe">CIRCE</span>, concibe la masoterapia como una arquitectura táctil. Su visión busca restaurar no solo el cuerpo físico, sino el refugio interno.</p>
+                            <p>Cada ritual de cuidado es diseñado bajo una profunda comprensión de la anatomía humana, brindando contención, rigor técnico y un silencio que abraza y sana. En <span class="font-circe">CIRCE</span>, el bienestar es el umbral hacia una transformación profunda.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección: Reserva -->
+        <section class="reserva" id="reserva">
+            <div class="container">
+                <div class="reserva-wrapper reveal-up">
+                    <div class="reserva-info">
+                        <span class="section-label">Agenda</span>
+                        <h2 class="section-title">Inicia tu Ritual</h2>
+                        <p>Completa los datos a continuación y nos pondremos en contacto contigo a la brevedad para confirmar tu espacio.</p>
+                    </div>
+                    <form class="reserva-form">
+                        <div class="form-group">
+                            <input type="text" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Correo electrónico" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" placeholder="Teléfono" required>
+                        </div>
+                        <div class="form-group">
+                            <select required>
+                                <option value="" disabled selected>Selecciona tu ritual</option>
+                                <option value="relajante">Masaje Relajante (60 min)</option>
+                                <option value="descontracturante">Masaje Descontracturante (60 min)</option>
+                                <option value="drenaje">Drenaje Linfático (60 min)</option>
+                                <option value="plan">Plan Básico Mensual</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="date" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Mensaje especial o consideraciones (opcional)" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary btn-submit">Solicitar Reserva</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer / Contacto (Estilo Patek Philippe) -->
+        <footer class="footer patek-footer" id="contacto">
+            <div class="container">
+                <div class="footer-grid patek-grid">
+                    <div class="footer-col">
+                        <h4>Savoir-Faire</h4>
+                        <a href="#filosofia">El Refugio</a>
+                        <a href="#pilares">El Ritual</a>
+                        <a href="#pilares">La Maestría</a>
+                        <a href="#pilares">El Vínculo</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Colecciones</h4>
+                        <a href="#servicios">Relajante</a>
+                        <a href="#servicios">Descontracturante</a>
+                        <a href="#servicios">Drenaje Linfático</a>
+                        <a href="#servicios">Planes Mensuales</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>La Institución</h4>
+                        <a href="#fundadora">Marta Sanhueza</a>
+                        <a href="#reserva">Reserva</a>
+                        <a href="https://maps.google.com/?q=Avenida+Providencia+2133,+Providencia,+Santiago,+Chile" target="_blank" class="map-link">Avenida Providencia #2133</a>
+                        <p class="footer-schedule">Lun-Vie: 10:30 a 20:00<br>Sáb: 10:30 a 16:00</p>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Servicio</h4>
+                        <a href="#">términos y Condiciones</a>
+                        <a href="#">Contraindicaciones</a>
+                        <a href="#">Privacidad</a>
+                    </div>
+                </div>
+
+                <div class="footer-patek-bottom-brand">
+                    <h2 class="footer-logo-massive"><span class="font-circe">CIRCE</span></h2>
+                </div>
+
+                <div class="footer-bottom patek-bottom">
+                    <p>&copy; 2026 CIRCE Masoterapia. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Scripts CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.19/dist/lenis.min.js"></script>
+    
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- App Script -->
+    <script src="./js/main.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
