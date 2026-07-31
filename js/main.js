@@ -133,18 +133,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. Parallax Images
     gsap.utils.toArray('.parallax-img').forEach(container => {
         const img = container.querySelector('.parallax-target');
-        const speed = container.dataset.speed || 0.5;
-        
-        gsap.to(img, {
-            yPercent: 20 * speed,
-            ease: "none",
-            scrollTrigger: {
-                trigger: container,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
-        });
+        if (img) {
+            const speed = container.dataset.speed || 0.5;
+            
+            gsap.fromTo(img, 
+                { yPercent: -10 * speed },
+                {
+                    yPercent: 10 * speed,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: container,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                }
+            );
+        }
     });
 
     // 5. Reveal Up Animations (Textos y Cards)

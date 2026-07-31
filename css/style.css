@@ -500,10 +500,10 @@ a:hover {
 
 .image-mask img {
     width: 100%;
-    height: 120%;
+    height: 130%;
     object-fit: cover;
     position: absolute;
-    top: -10%;
+    top: -15%;
     left: 0;
 }
 
