@@ -137,7 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return {
                 container,
                 img,
-                speed: parseFloat(container.dataset.speed || 0.5)
+                speed: parseFloat(container.dataset.speed || 0.5),
+                yTo: gsap.quickTo(img, "yPercent", {duration: 0.8, ease: "power3.out"})
             };
         }
         return null;
@@ -156,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 // Map progress (0 to 1) to yPercent (-10*speed to 10*speed)
                 const yPercent = gsap.utils.mapRange(0, 1, -10 * item.speed, 10 * item.speed, progress);
-                gsap.set(item.img, { yPercent: yPercent });
+                item.yTo(yPercent);
             }
         });
     });
@@ -286,10 +287,18 @@ document.addEventListener("DOMContentLoaded", () => {
         { section: ".reserva", next: ".footer" }
     ];
 
-    const curtains = curtainSections.map(item => ({
-        sectionEl: document.querySelector(item.section),
-        nextEl: document.querySelector(item.next)
-    })).filter(item => item.sectionEl && item.nextEl);
+    const curtains = curtainSections.map(item => {
+        const sectionEl = document.querySelector(item.section);
+        const nextEl = document.querySelector(item.next);
+        if (sectionEl && nextEl) {
+            return {
+                sectionEl,
+                nextEl,
+                yTo: gsap.quickTo(sectionEl, "yPercent", {duration: 0.8, ease: "power3.out"})
+            }
+        }
+        return null;
+    }).filter(item => item !== null);
 
     // Este motor reemplaza a ScrollTrigger para el parallax de secciones.
     // Al calcular dinámicamente en cada frame, es 100% inmune a los cambios 
@@ -301,11 +310,11 @@ document.addEventListener("DOMContentLoaded", () => {
             // Si la parte superior de la siguiente sección está dentro de la pantalla
             if (rect.top <= winH && rect.top >= -winH) {
                 const progress = gsap.utils.clamp(0, 1, 1 - (rect.top / winH));
-                gsap.set(item.sectionEl, { yPercent: 30 * progress });
+                item.yTo(30 * progress);
             } else if (rect.top > winH) {
-                gsap.set(item.sectionEl, { yPercent: 0 });
+                item.yTo(0);
             } else if (rect.top < -winH) {
-                gsap.set(item.sectionEl, { yPercent: 30 });
+                item.yTo(30);
             }
         });
     });
