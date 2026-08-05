@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
     
-                        // 3.8 Clone-Based Overlapping Parallax Transition
+                            // 3.8 Clone-Based Overlapping Parallax Transition
     const transitionLinks = document.querySelectorAll('.nav-link, .nav-mobile-link, .footer-col a[href^="#"]');
     const cloneContainer = document.querySelector('.transition-clone-container');
     const smoothWrapper = document.querySelector('.smooth-wrapper');
@@ -148,36 +148,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 e.preventDefault(); 
                 
-                                // Medir distancia antes de animar
                 const currentScrollY = window.scrollY;
                 const winH = window.innerHeight;
                 const offset = targetEl.getBoundingClientRect().top + currentScrollY;
                 
-                // Clonar seccion objetivo
                 const clone = targetEl.cloneNode(true);
                 clone.removeAttribute('id');
                 clone.querySelectorAll('*').forEach(el => el.removeAttribute('id'));
                 
-                // Forzar visibilidad en el clon (sobrescribir ScrollTrigger states)
                 gsap.set(clone.querySelectorAll('.fade-up, .fade-in, [data-gsap]'), { 
                     opacity: 1, y: 0, x: 0, scale: 1, autoAlpha: 1 
                 });
                 
-                // Limpiar container e inyectar clon
                 cloneContainer.innerHTML = '';
                 cloneContainer.appendChild(clone);
                 
-                // Fondo oscuro para dar profundidad
                 const originalBodyBg = document.body.style.backgroundColor;
                 document.body.style.backgroundColor = '#0a0a0a';
                 
-                // Preparar inicio de animacion
                 gsap.set(cloneContainer, { visibility: 'visible', yPercent: 100 });
                 gsap.set(smoothWrapper, { transformOrigin: "50% " + (currentScrollY + winH/2) + "px" });
                 
                 const tl = gsap.timeline();
                 
-                // 1. Pagina actual se hunde
                 tl.to(smoothWrapper, {
                     scale: 0.93,
                     opacity: 0.2,
@@ -185,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     duration: 1.0,
                     ease: "power4.inOut"
                 }, 0)
-                // 2. Clon de nueva pagina sube, tapando la actual (Ilusion de cambio de pagina)
                 .to(cloneContainer, {
                     yPercent: 0,
                     duration: 1.0,
@@ -194,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 .call(() => {
                     history.pushState(null, null, targetId);
                     
-                    // Saltar scroll en la sombra
                     lenis.scrollTo(offset, { immediate: true });
                     window.scrollTo({ top: offset, behavior: "instant" });
                     
@@ -206,54 +197,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         gsap.set(navMobile, { autoAlpha: 0 });
                     }
                     
-                    // Restaurar todo a la normalidad de forma invisible
                     gsap.set(cloneContainer, { visibility: 'hidden' });
                     gsap.set(smoothWrapper, { clearProps: "all" });
                     document.body.style.backgroundColor = originalBodyBg;
-                    cloneContainer.innerHTML = '';
-                });
-                
-                // Limpiar container e inyectar clon
-                cloneContainer.innerHTML = '';
-                cloneContainer.appendChild(clone);
-                
-                // Preparar inicio de animacion
-                gsap.set(cloneContainer, { visibility: 'visible', yPercent: 100 });
-                gsap.set(smoothWrapper, { transformOrigin: "50% " + (currentScrollY + winH/2) + "px" });
-                
-                const tl = gsap.timeline();
-                
-                // 1. Pagina actual se hunde
-                tl.to(smoothWrapper, {
-                    scale: 0.94,
-                    opacity: 0.3,
-                    duration: 1.0,
-                    ease: "power4.inOut"
-                }, 0)
-                // 2. Clon de nueva pagina sube, tapando la actual (Ilusion de cambio de pagina)
-                .to(cloneContainer, {
-                    yPercent: 0,
-                    duration: 1.0,
-                    ease: "power4.inOut"
-                }, 0)
-                .call(() => {
-                    history.pushState(null, null, targetId);
-                    
-                    // Saltar scroll en la sombra
-                    lenis.scrollTo(offset, { immediate: true });
-                    window.scrollTo({ top: offset, behavior: "instant" });
-                    
-                    const navMobile = document.querySelector('.nav-mobile');
-                    const navbar = document.querySelector('.navbar');
-                    if (navbar && navbar.classList.contains('menu-open')) {
-                        navbar.classList.remove('menu-open');
-                        gsap.set('.nav-mobile-link', { y: 20, opacity: 0 });
-                        gsap.set(navMobile, { autoAlpha: 0 });
-                    }
-                    
-                    // Restaurar todo a la normalidad de forma invisible
-                    gsap.set(cloneContainer, { visibility: 'hidden' });
-                    gsap.set(smoothWrapper, { clearProps: "all" });
                     cloneContainer.innerHTML = '';
                 });
             });
@@ -470,6 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
 
 
 
