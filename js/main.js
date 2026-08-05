@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
     
-            // 3.8 Overlapping Parallax Page Transition
+                // 3.8 Overlapping Parallax Page Transition
     const transitionLinks = document.querySelectorAll('.nav-link, .nav-mobile-link, .footer-col a[href^="#"]');
     const curtain = document.querySelector('.transition-curtain');
     const smoothWrapper = document.querySelector('.smooth-wrapper');
@@ -148,9 +148,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 e.preventDefault(); 
                 
+                const currentScrollY = window.scrollY;
+                const winH = window.innerHeight;
+                
                 gsap.set(curtain, { visibility: 'visible', yPercent: 100 });
-                // Aseguramos transform origin para el scale
-                gsap.set(smoothWrapper, { transformOrigin: "center top" });
+                gsap.set(smoothWrapper, { transformOrigin: "50% " + (currentScrollY + winH / 2) + "px" });
                 
                 const tl = gsap.timeline();
                 
@@ -169,15 +171,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 .call(() => {
                     history.pushState(null, null, targetId);
                     
-                    // Restauramos temporalmente para medir la distancia real
                     gsap.set(smoothWrapper, { clearProps: "transform" });
                     const offset = targetEl.getBoundingClientRect().top + window.scrollY;
                     
                     lenis.scrollTo(offset, { immediate: true });
                     window.scrollTo({ top: offset, behavior: "instant" });
                     
-                    // Preparamos la entrada de la nueva seccion (viene de mas abajo)
-                    gsap.set(smoothWrapper, { y: "15vh", scale: 0.96, opacity: 0.4 });
+                    gsap.set(smoothWrapper, { 
+                        transformOrigin: "50% " + (offset + winH / 2) + "px",
+                        y: "15vh", 
+                        scale: 0.96, 
+                        opacity: 0.4 
+                    });
                     
                     const navMobile = document.querySelector('.nav-mobile');
                     const navbar = document.querySelector('.navbar');
@@ -415,6 +420,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
 
 
 
