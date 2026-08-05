@@ -132,79 +132,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
     
-                            // 3.8 Clone-Based Overlapping Parallax Transition
-    const transitionLinks = document.querySelectorAll('.nav-link, .nav-mobile-link, .footer-col a[href^="#"]');
-    const cloneContainer = document.querySelector('.transition-clone-container');
-    const smoothWrapper = document.querySelector('.smooth-wrapper');
-
-    if (cloneContainer && smoothWrapper && transitionLinks.length > 0) {
-        transitionLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                const targetId = link.getAttribute('href');
-                if (!targetId || !targetId.startsWith('#')) return;
+                            
+        // 3.8 Basic Smooth Scroll Navigation
+    const navLinks = document.querySelectorAll('.nav-link, .nav-mobile-link, .footer-col a[href^="#"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href');
+            if (!targetId || !targetId.startsWith('#')) return;
+            
+            const targetEl = document.querySelector(targetId);
+            if (targetEl) {
+                e.preventDefault();
+                lenis.scrollTo(targetEl, { offset: 0, duration: 1.2, ease: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
                 
-                const targetEl = document.querySelector(targetId);
-                if (!targetEl) return;
-                
-                e.preventDefault(); 
-                
-                const currentScrollY = window.scrollY;
-                const winH = window.innerHeight;
-                const offset = targetEl.getBoundingClientRect().top + currentScrollY;
-                
-                const clone = targetEl.cloneNode(true);
-                clone.removeAttribute('id');
-                clone.querySelectorAll('*').forEach(el => el.removeAttribute('id'));
-                
-                gsap.set(clone.querySelectorAll('.fade-up, .fade-in, [data-gsap]'), { 
-                    opacity: 1, y: 0, x: 0, scale: 1, autoAlpha: 1 
-                });
-                
-                cloneContainer.innerHTML = '';
-                cloneContainer.appendChild(clone);
-                
-                const originalBodyBg = document.body.style.backgroundColor;
-                document.body.style.backgroundColor = '#111';
-                
-                gsap.set(cloneContainer, { visibility: 'visible', yPercent: 100 });
-                gsap.set(smoothWrapper, { transformOrigin: "50% " + (currentScrollY + winH/2) + "px" });
-                
-                const tl = gsap.timeline();
-                
-                tl.to(smoothWrapper, {
-                    scale: 0.95,
-                    opacity: 0.6,
-                    y: "-2vh",
-                    duration: 0.9,
-                    ease: "power3.inOut"
-                }, 0)
-                .to(cloneContainer, {
-                    yPercent: 0,
-                    duration: 0.9,
-                    ease: "power3.inOut"
-                }, 0)
-                .call(() => {
-                    history.pushState(null, null, targetId);
-                    
-                    lenis.scrollTo(offset, { immediate: true });
-                    window.scrollTo({ top: offset, behavior: "instant" });
-                    
-                    const navMobile = document.querySelector('.nav-mobile');
-                    const navbar = document.querySelector('.navbar');
-                    if (navbar && navbar.classList.contains('menu-open')) {
-                        navbar.classList.remove('menu-open');
-                        gsap.set('.nav-mobile-link', { y: 20, opacity: 0 });
-                        gsap.set(navMobile, { autoAlpha: 0 });
-                    }
-                    
-                    gsap.set(cloneContainer, { visibility: 'hidden' });
-                    gsap.set(smoothWrapper, { clearProps: "all" });
-                    document.body.style.backgroundColor = originalBodyBg;
-                    cloneContainer.innerHTML = '';
-                });
-            });
+                // Close mobile menu if open
+                const navMobile = document.querySelector('.nav-mobile');
+                const navbar = document.querySelector('.navbar');
+                if (navbar && navbar.classList.contains('menu-open')) {
+                    navbar.classList.remove('menu-open');
+                    gsap.to('.nav-mobile-link', { y: 20, opacity: 0, duration: 0.3, stagger: 0.05 });
+                    gsap.to(navMobile, { autoAlpha: 0, duration: 0.5 });
+                }
+            }
         });
-    }
+    });
 
     // 4. Parallax Images (Robust Custom Engine to survive curtain effect)
     const parallaxImages = gsap.utils.toArray('.parallax-img').map(container => {
@@ -416,6 +367,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
+
 
 
 
