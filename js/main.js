@@ -132,12 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
     
-        // 3.8 Masked Window Page Transition
+            // 3.8 Overlapping Parallax Page Transition
     const transitionLinks = document.querySelectorAll('.nav-link, .nav-mobile-link, .footer-col a[href^="#"]');
-    const transitionOverlay = document.querySelector('.transition-overlay');
-    const maskRect = document.querySelector('.mask-rect');
+    const curtain = document.querySelector('.transition-curtain');
+    const smoothWrapper = document.querySelector('.smooth-wrapper');
 
-    if (transitionOverlay && maskRect && transitionLinks.length > 0) {
+    if (curtain && smoothWrapper && transitionLinks.length > 0) {
         transitionLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 const targetId = link.getAttribute('href');
@@ -148,33 +148,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 e.preventDefault(); 
                 
-                const winW = window.innerWidth;
-                const winH = window.innerHeight;
-                
-                gsap.set(transitionOverlay, { autoAlpha: 1 });
-                gsap.set(maskRect, { 
-                    attr: { x: 0, y: 0, width: winW, height: winH, rx: 16 }
-                });
+                gsap.set(curtain, { visibility: 'visible', yPercent: 100 });
+                // Aseguramos transform origin para el scale
+                gsap.set(smoothWrapper, { transformOrigin: "center top" });
                 
                 const tl = gsap.timeline();
                 
-                tl.to(maskRect, {
-                    attr: {
-                        x: winW / 2,
-                        y: winH / 2,
-                        width: 0,
-                        height: 0,
-                        rx: 0
-                    },
-                    duration: 0.4,
-                    ease: "power3.inOut"
-                })
+                tl.to(smoothWrapper, {
+                    y: "10vh",
+                    scale: 0.96,
+                    opacity: 0.4,
+                    duration: 0.7,
+                    ease: "power4.inOut"
+                }, 0)
+                .to(curtain, {
+                    yPercent: 0,
+                    duration: 0.7,
+                    ease: "power4.inOut"
+                }, 0)
                 .call(() => {
                     history.pushState(null, null, targetId);
                     
+                    // Restauramos temporalmente para medir la distancia real
+                    gsap.set(smoothWrapper, { clearProps: "transform" });
                     const offset = targetEl.getBoundingClientRect().top + window.scrollY;
+                    
                     lenis.scrollTo(offset, { immediate: true });
                     window.scrollTo({ top: offset, behavior: "instant" });
+                    
+                    // Preparamos la entrada de la nueva seccion (viene de mas abajo)
+                    gsap.set(smoothWrapper, { y: "15vh", scale: 0.96, opacity: 0.4 });
                     
                     const navMobile = document.querySelector('.nav-mobile');
                     const navbar = document.querySelector('.navbar');
@@ -184,22 +187,24 @@ document.addEventListener("DOMContentLoaded", () => {
                         gsap.set(navMobile, { autoAlpha: 0 });
                     }
                 })
-                .to(maskRect, {
-                    attr: {
-                        x: 0,
-                        y: 0,
-                        width: winW,
-                        height: winH,
-                        rx: 16
-                    },
-                    duration: 0.4,
-                    ease: "power3.inOut",
-                    delay: 0.1
-                })
-                .set(transitionOverlay, { autoAlpha: 0 });
+                .to(curtain, {
+                    yPercent: -100,
+                    duration: 0.7,
+                    ease: "power4.inOut"
+                }, "+=0.05")
+                .to(smoothWrapper, {
+                    y: "0vh",
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.7,
+                    ease: "power4.inOut"
+                }, "<")
+                .set(curtain, { visibility: 'hidden', yPercent: 100 })
+                .set(smoothWrapper, { clearProps: "all" });
             });
         });
     }
+
     // 4. Parallax Images (Robust Custom Engine to survive curtain effect)
     const parallaxImages = gsap.utils.toArray('.parallax-img').map(container => {
         const img = container.querySelector('.parallax-target');
@@ -410,6 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
 
 
 
