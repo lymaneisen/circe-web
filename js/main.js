@@ -130,6 +130,51 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    
+    // 3.8 Masked Window Page Transition
+    const transitionLinks = document.querySelectorAll('.nav-link, .nav-mobile-link, .footer-col a[href^="#"]');
+    const transitionOverlay = document.querySelector('.transition-overlay');
+
+    if (transitionOverlay && transitionLinks.length > 0) {
+        transitionLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const targetId = link.getAttribute('href');
+                if (!targetId || !targetId.startsWith('#')) return;
+                
+                const targetEl = document.querySelector(targetId);
+                if (!targetEl) return;
+                
+                e.preventDefault(); 
+                
+                lenis.stop(); // Prevenir interacciones
+                gsap.set(transitionOverlay, { autoAlpha: 1, width: "150vw", height: "150vh" });
+                
+                const tl = gsap.timeline();
+                
+                tl.to(transitionOverlay, {
+                    width: "0vw",
+                    height: "0vh",
+                    duration: 0.8,
+                    ease: "power3.inOut"
+                })
+                .call(() => {
+                    lenis.scrollTo(targetEl, { immediate: true });
+                })
+                .to(transitionOverlay, {
+                    width: "150vw",
+                    height: "150vh",
+                    duration: 0.8,
+                    ease: "power3.inOut",
+                    delay: 0.1 // Pausa ligera cuando est oscuro
+                })
+                .call(() => {
+                    lenis.start();
+                })
+                .set(transitionOverlay, { autoAlpha: 0 });
+            });
+        });
+    }
+
     // 4. Parallax Images (Robust Custom Engine to survive curtain effect)
     const parallaxImages = gsap.utils.toArray('.parallax-img').map(container => {
         const img = container.querySelector('.parallax-target');
@@ -340,3 +385,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
