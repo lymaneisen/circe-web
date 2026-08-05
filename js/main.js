@@ -131,11 +131,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     
+    
     // 3.8 Masked Window Page Transition
     const transitionLinks = document.querySelectorAll('.nav-link, .nav-mobile-link, .footer-col a[href^="#"]');
     const transitionOverlay = document.querySelector('.transition-overlay');
+    const maskRect = document.querySelector('.mask-rect');
 
-    if (transitionOverlay && transitionLinks.length > 0) {
+    if (transitionOverlay && maskRect && transitionLinks.length > 0) {
         transitionLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 const targetId = link.getAttribute('href');
@@ -146,29 +148,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 e.preventDefault(); 
                 
-                lenis.stop(); // Prevenir interacciones
-                gsap.set(transitionOverlay, { autoAlpha: 1, width: "150vw", height: "150vh" });
+                gsap.set(transitionOverlay, { autoAlpha: 1 });
+                gsap.set(maskRect, { scale: 1 });
                 
                 const tl = gsap.timeline();
                 
-                tl.to(transitionOverlay, {
-                    width: "0vw",
-                    height: "0vh",
-                    duration: 0.8,
-                    ease: "power3.inOut"
+                tl.to(maskRect, {
+                    scale: 0,
+                    duration: 0.5,
+                    ease: "power4.inOut"
                 })
                 .call(() => {
                     lenis.scrollTo(targetEl, { immediate: true });
+                    window.scrollTo({ top: targetEl.offsetTop, behavior: 'instant' });
                 })
-                .to(transitionOverlay, {
-                    width: "150vw",
-                    height: "150vh",
-                    duration: 0.8,
-                    ease: "power3.inOut",
-                    delay: 0.1 // Pausa ligera cuando est oscuro
-                })
-                .call(() => {
-                    lenis.start();
+                .to(maskRect, {
+                    scale: 1,
+                    duration: 0.5,
+                    ease: "power4.inOut",
+                    delay: 0.05
                 })
                 .set(transitionOverlay, { autoAlpha: 0 });
             });
@@ -385,4 +383,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
 
