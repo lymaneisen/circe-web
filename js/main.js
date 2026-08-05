@@ -132,12 +132,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
     
-                // 3.8 Overlapping Parallax Page Transition
+                    // 3.8 Smooth Curtain Page Transition
     const transitionLinks = document.querySelectorAll('.nav-link, .nav-mobile-link, .footer-col a[href^="#"]');
     const curtain = document.querySelector('.transition-curtain');
-    const smoothWrapper = document.querySelector('.smooth-wrapper');
 
-    if (curtain && smoothWrapper && transitionLinks.length > 0) {
+    if (curtain && transitionLinks.length > 0) {
         transitionLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 const targetId = link.getAttribute('href');
@@ -148,41 +147,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 e.preventDefault(); 
                 
-                const currentScrollY = window.scrollY;
-                const winH = window.innerHeight;
-                
                 gsap.set(curtain, { visibility: 'visible', yPercent: 100 });
-                gsap.set(smoothWrapper, { transformOrigin: "50% " + (currentScrollY + winH / 2) + "px" });
                 
                 const tl = gsap.timeline();
                 
-                tl.to(smoothWrapper, {
-                    y: "10vh",
-                    scale: 0.96,
-                    opacity: 0.4,
-                    duration: 0.7,
-                    ease: "power4.inOut"
-                }, 0)
-                .to(curtain, {
+                // Solo movemos la cortina para evitar romper ScrollTrigger y Parallax
+                tl.to(curtain, {
                     yPercent: 0,
-                    duration: 0.7,
-                    ease: "power4.inOut"
-                }, 0)
+                    duration: 0.6,
+                    ease: "power3.inOut"
+                })
                 .call(() => {
                     history.pushState(null, null, targetId);
                     
-                    gsap.set(smoothWrapper, { clearProps: "transform" });
                     const offset = targetEl.getBoundingClientRect().top + window.scrollY;
-                    
                     lenis.scrollTo(offset, { immediate: true });
                     window.scrollTo({ top: offset, behavior: "instant" });
-                    
-                    gsap.set(smoothWrapper, { 
-                        transformOrigin: "50% " + (offset + winH / 2) + "px",
-                        y: "15vh", 
-                        scale: 0.96, 
-                        opacity: 0.4 
-                    });
                     
                     const navMobile = document.querySelector('.nav-mobile');
                     const navbar = document.querySelector('.navbar');
@@ -194,18 +174,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .to(curtain, {
                     yPercent: -100,
-                    duration: 0.7,
-                    ease: "power4.inOut"
-                }, "+=0.05")
-                .to(smoothWrapper, {
-                    y: "0vh",
-                    scale: 1,
-                    opacity: 1,
-                    duration: 0.7,
-                    ease: "power4.inOut"
-                }, "<")
-                .set(curtain, { visibility: 'hidden', yPercent: 100 })
-                .set(smoothWrapper, { clearProps: "all" });
+                    duration: 0.6,
+                    ease: "power3.inOut"
+                }, "+=0.1")
+                .set(curtain, { visibility: 'hidden', yPercent: 100 });
             });
         });
     }
@@ -420,6 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
 
 
 
