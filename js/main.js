@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cloneContainer.appendChild(clone);
                 
                 const originalBodyBg = document.body.style.backgroundColor;
-                document.body.style.backgroundColor = '#0a0a0a';
+                document.body.style.backgroundColor = '#111';
                 
                 gsap.set(cloneContainer, { visibility: 'visible', yPercent: 100 });
                 gsap.set(smoothWrapper, { transformOrigin: "50% " + (currentScrollY + winH/2) + "px" });
@@ -172,16 +172,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 const tl = gsap.timeline();
                 
                 tl.to(smoothWrapper, {
-                    scale: 0.93,
-                    opacity: 0.2,
-                    y: "-5vh",
-                    duration: 1.0,
-                    ease: "power4.inOut"
+                    scale: 0.95,
+                    opacity: 0.6,
+                    y: "-2vh",
+                    duration: 0.9,
+                    ease: "power3.inOut"
                 }, 0)
                 .to(cloneContainer, {
                     yPercent: 0,
-                    duration: 1.0,
-                    ease: "power4.inOut"
+                    duration: 0.9,
+                    ease: "power3.inOut"
                 }, 0)
                 .call(() => {
                     history.pushState(null, null, targetId);
