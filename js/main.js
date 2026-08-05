@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
     
-    // 3.8 Masked Window Page Transition
+        // 3.8 Masked Window Page Transition
     const transitionLinks = document.querySelectorAll('.nav-link, .nav-mobile-link, .footer-col a[href^="#"]');
     const transitionOverlay = document.querySelector('.transition-overlay');
     const maskRect = document.querySelector('.mask-rect');
@@ -148,31 +148,58 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 e.preventDefault(); 
                 
+                const winW = window.innerWidth;
+                const winH = window.innerHeight;
+                
                 gsap.set(transitionOverlay, { autoAlpha: 1 });
-                gsap.set(maskRect, { scale: 1 });
+                gsap.set(maskRect, { 
+                    attr: { x: 0, y: 0, width: winW, height: winH, rx: 16 }
+                });
                 
                 const tl = gsap.timeline();
                 
                 tl.to(maskRect, {
-                    scale: 0,
-                    duration: 0.5,
-                    ease: "power4.inOut"
+                    attr: {
+                        x: winW / 2,
+                        y: winH / 2,
+                        width: 0,
+                        height: 0,
+                        rx: 0
+                    },
+                    duration: 0.4,
+                    ease: "power3.inOut"
                 })
                 .call(() => {
-                    lenis.scrollTo(targetEl, { immediate: true });
-                    window.scrollTo({ top: targetEl.offsetTop, behavior: 'instant' });
+                    history.pushState(null, null, targetId);
+                    
+                    const offset = targetEl.getBoundingClientRect().top + window.scrollY;
+                    lenis.scrollTo(offset, { immediate: true });
+                    window.scrollTo({ top: offset, behavior: "instant" });
+                    
+                    const navMobile = document.querySelector('.nav-mobile');
+                    const navbar = document.querySelector('.navbar');
+                    if (navbar && navbar.classList.contains('menu-open')) {
+                        navbar.classList.remove('menu-open');
+                        gsap.set('.nav-mobile-link', { y: 20, opacity: 0 });
+                        gsap.set(navMobile, { autoAlpha: 0 });
+                    }
                 })
                 .to(maskRect, {
-                    scale: 1,
-                    duration: 0.5,
-                    ease: "power4.inOut",
-                    delay: 0.05
+                    attr: {
+                        x: 0,
+                        y: 0,
+                        width: winW,
+                        height: winH,
+                        rx: 16
+                    },
+                    duration: 0.4,
+                    ease: "power3.inOut",
+                    delay: 0.1
                 })
                 .set(transitionOverlay, { autoAlpha: 0 });
             });
         });
     }
-
     // 4. Parallax Images (Robust Custom Engine to survive curtain effect)
     const parallaxImages = gsap.utils.toArray('.parallax-img').map(container => {
         const img = container.querySelector('.parallax-target');
@@ -383,5 +410,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
 
 
